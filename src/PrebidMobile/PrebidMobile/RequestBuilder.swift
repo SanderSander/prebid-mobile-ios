@@ -83,14 +83,13 @@ import AdSupport
         let uuid = UUID().uuidString
         var sourceDict: [String: Any] = [:]
         sourceDict["tid"] = uuid
-
         return sourceDict
     }
 
     func openrtbRequestExtension() -> [AnyHashable: Any]? {
         var requestPrebidExt: [AnyHashable: Any] = [:]
         requestPrebidExt["targeting"] = [:]
-        requestPrebidExt["storedrequest"] = ["id": Prebid.shared.prebidServerAccountId]
+        //requestPrebidExt["storedrequest"] = ["id": Prebid.shared.prebidServerAccountId]
         requestPrebidExt["cache"] = ["bids": [AnyHashable: Any]()]
         var requestExt: [AnyHashable: Any] = [:]
         requestExt["prebid"] = requestPrebidExt

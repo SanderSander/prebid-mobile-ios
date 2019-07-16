@@ -23,7 +23,7 @@ class BidResponse: NSObject {
      * the adUnitId is the adUnit identifier that the bid response corresponds to
      */
     private(set) var adUnitId: String = ""
-
+    
     var myUnitId: String? = "" {
         didSet {
             adUnitId = myUnitId!
@@ -32,6 +32,9 @@ class BidResponse: NSObject {
     /**
      * customKeywords is a dictionary of all the response objects returned by the demand source that can be used in future
      */
+    
+    private var bids:[Bid] = []
+    
     private(set) var customKeywords: [String: String] = [:]
 
     private var myCustomKeywords: [String: String] = [:] {
@@ -39,6 +42,7 @@ class BidResponse: NSObject {
             customKeywords = myCustomKeywords
         }
     }
+    
 
     init(adId: String, adServerTargeting: [String: AnyObject]) {
         super.init()
@@ -50,5 +54,15 @@ class BidResponse: NSObject {
     func setMyCustomKeywords(newValue: [String: String]) {
         self.myCustomKeywords = newValue
     }
+    
+    func setBids(bids:[Bid]) {
+        self.bids = bids;
+    }
+    
+    func getBids() -> [Bid] {
+        return self.bids
+    }
+ 
+    
 
 }

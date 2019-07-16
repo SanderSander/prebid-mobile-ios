@@ -20,6 +20,13 @@ import Foundation
     var timeoutUpdated: Bool = false
 
     public var prebidServerAccountId: String! = ""
+    
+    public var appPage:String! = ""
+    
+    public var appName:String! = ""
+    
+    public var lastGatherStats:Double?
+    
 
     /**
     * This property is set by the developer when he is willing to share the location for better ad targeting
@@ -64,6 +71,8 @@ import Foundation
             }
         }
     }
+    
+
 
     public func setCustomPrebidServer(url: String) throws {
 
@@ -74,4 +83,117 @@ import Foundation
             Host.shared.setHostURL = url
         }
     }
+    
+    func gatherPlacements() -> NSMutableArray {
+        
+        return BidManager.gatherPlacements()
+    }
+    
+    public func markAdUnitLoaded(adView:AnyObject) {
+        let bidMap = BidManager.getAdUnitMapByAdView(adView: adView)
+        
+        if (bidMap != nil) {
+            bidMap!.isServerUpdated = false;
+            let adUnit = BidManager.getAdUnitByCode(code: bidMap!.adUnitCode)
+            adUnit?.stopLoadTime = BidManager.getCurrentMillis()
+        }
+    }
+    
+    public func markWinner(adUnitCode:String, creativeCode:String) {
+        let bids = BidManager.getBidsForAdUnit(adUnitCode: adUnitCode)
+        for bid in bids {
+            if bid.getCreative() == creativeCode {
+                bid.setWinner()
+            }
+        }
+    }
+    
+    public func adUnitReceivedAppEvent(adView:AnyObject, instruction:String, prm:String?) {
+        
+        if prm != nil {
+            if instruction == "deliveryData" {
+                let serveData = prm!.components(separatedBy: "|")
+                if serveData.count == 2 {
+                    let lineItemId = serveData[0]
+                    let creativeId = serveData[1]
+                    if let adUnitBidMap = BidManager.getAdUnitMapByAdView(adView: adView) {
+                        adUnitBidMap.lineItemId = lineItemId
+                        adUnitBidMap.creativeId = creativeId
+                    }
+                }
+            } else if instruction == "wonHB" {
+                if let adUnitBidMap = BidManager.getAdUnitMapByAdView(adView: adView) {
+                    markWinner(adUnitCode: adUnitBidMap.adUnitCode, creativeCode: prm!);
+                }
+            }
+        }
+        
+        
+        
+    }
+    
+    
+    
+    public func adUnitReceivedDefault(adView:AnyObject) {
+        let bidMap = BidManager.getAdUnitMapByAdView(adView: adView)
+        bidMap?.isDefault = true
+    }
+    
+    func trackStats(dictionary:NSMutableDictionary) {
+        
+        
+        var mutableRequest = URLRequest(url: URL(string: "https://tagmans3.adsolutions.com/log/")!, cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalCacheData, timeoutInterval: 1000)
+        mutableRequest.httpMethod = "POST"
+        
+        let data = try? JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted)
+        mutableRequest.httpBody = data
+        
+        URLSession.shared.dataTask(with: mutableRequest, completionHandler: {
+            data, urlResponse, error in
+            
+            if (error != nil) {
+                print("Statstracker finished with error: ")
+                print(error?.localizedDescription)
+            }
+            
+        }).resume()
+        
+    }
+    
+    public func gatherStats() {
+        let statsDict = NSMutableDictionary()
+        let height = UIScreen.main.bounds.size.height;
+        let width = UIScreen.main.bounds.size.width;
+        let language = Locale.preferredLanguages.first
+        
+        
+        statsDict["client"] = self.prebidServerAccountId
+        statsDict["host"] = self.appName;
+        statsDict["page"] = self.appPage;
+        statsDict["proto"] = "https:";
+        statsDict["duration"] = 0;
+        statsDict["screenWidth"] = width;
+        statsDict["screenHeight"] = height;
+        statsDict["language"] = language;
+        let currentTime = Date().timeIntervalSince1970 * 1000
+        if let gatheredStats = self.lastGatherStats {
+            statsDict["duration"] = currentTime - gatheredStats
+        }
+        let placements = self.gatherPlacements()
+        statsDict["placements"] = placements
+        
+        self.lastGatherStats = currentTime
+        if placements.count > 0 {
+            print("Gather stats sent with " + statsDict.description)
+            trackStats(dictionary: statsDict)
+        } else {
+            print("Ignoring gatherStats because now changes are made")
+        }
+        
+        
+    
+        
+    }
+    
+   
 }

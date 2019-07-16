@@ -99,6 +99,8 @@ public class Utils: NSObject {
         let hasDFPMember = adObject.responds(to: NSSelectorFromString("setCustomTargeting:"))
         if (hasDFPMember) {
             //check if the publisher has added any custom targeting. If so then merge the bid keywords to the same.
+            
+            
             if (adObject.value(forKey: "customTargeting") != nil) {
                 var existingDict: [String: Any] = adObject.value(forKey: "customTargeting") as! [String: Any]
                 existingDict.merge(dict: bidResponse.customKeywords)
