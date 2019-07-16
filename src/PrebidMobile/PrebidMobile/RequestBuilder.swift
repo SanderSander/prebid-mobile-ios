@@ -156,7 +156,9 @@ import AdSupport
         }
 
         app["publisher"] = ["id": Prebid.shared.prebidServerAccountId ?? 0] as NSDictionary
-        app["ext"] = ["prebid": ["version": String(PrebidMobileVersionNumber), "source": "prebid-mobile"]]
+
+        let prebidSdkVersion = Bundle(for: type(of: self)).infoDictionary?["CFBundleShortVersionString"] as? String
+        app["ext"] = ["prebid": ["version": prebidSdkVersion, "source": "prebid-mobile"]]
         
         if let storeUrl = Targeting.shared.storeURL, !storeUrl.isEmpty {
             app["storeurl"] = storeUrl
@@ -244,7 +246,7 @@ import AdSupport
 
             let locationTimestamp: Date? = Location.shared.location?.timestamp
             let ageInSeconds: TimeInterval = -1.0 * (locationTimestamp?.timeIntervalSinceNow ?? 0.0)
-            let ageInMilliseconds = Int(ageInSeconds * 1000)
+            let ageInMilliseconds = Int64(ageInSeconds * 1000)
 
             geoDict["lastfix"] = ageInMilliseconds
             geoDict["accuracy"] = Int(Location.shared.location?.horizontalAccuracy ?? 0)

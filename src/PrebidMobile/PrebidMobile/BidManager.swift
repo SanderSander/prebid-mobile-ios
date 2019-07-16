@@ -22,14 +22,14 @@ import Foundation
     private static var adUnits:[AdUnit] = []
     private static var adUnitBidMap:[String : [AdUnitBidMap]] = [:]
     private static var bidMap:[String : [Bid]] = [:]
-    
-    
+
+
     init(adUnit: AdUnit) {
 
         prebidAdUnit = adUnit
         super.init()
     }
-    
+
     static func addAdUnitBidMap(prebidAdUnit:AdUnit, adView:AnyObject) -> AdUnitBidMap {
         let newObj = AdUnitBidMap(adView: adView, adUnitCode: prebidAdUnit.identifier)
         if var adUnitbidMaps = BidManager.adUnitBidMap[prebidAdUnit.identifier] {
@@ -38,21 +38,21 @@ import Foundation
             BidManager.adUnitBidMap[prebidAdUnit.identifier] = [newObj]
         }
         return newObj
-    
+
     }
-    
+
     static func addAdUnit(prebidAdUnit:AdUnit) {
         BidManager.adUnits.append(prebidAdUnit)
     }
-    
+
     static func saveBids(prebidAdUnit:AdUnit, bids:[Bid]) {
         BidManager.bidMap[prebidAdUnit.identifier] = bids
     }
-    
+
     static func getBidsForAdUnit(adUnitCode:String) -> [Bid] {
         return BidManager.bidMap[adUnitCode] ?? []
     }
-    
+
     static func getAdUnitMapByAdView(adView:AnyObject) -> AdUnitBidMap? {
         for item in BidManager.adUnitBidMap {
             for bidAdUnitMap in item.value {
@@ -61,10 +61,10 @@ import Foundation
                 }
             }
         }
-        
+
         return nil
     }
-    
+
     static func getAdUnitByCode(code:String) -> AdUnit? {
         for adUnit in self.adUnits {
             if (adUnit.identifier == code) {
@@ -73,72 +73,72 @@ import Foundation
         }
         return nil
     }
-    
+
     static func gatherSizes(adUnitBidMap:AdUnitBidMap) -> NSMutableDictionary {
         let sizesDict = NSMutableDictionary()
         let sizeArr = NSMutableArray()
         let sizeObj = BidManager.gatherSize(adUnitBidMap: adUnitBidMap)
         sizeArr.add(sizeObj)
         sizesDict["sizes"] = sizeArr
-        
+
         return sizesDict;
     }
-    
+
     static func gatherSize(adUnitBidMap:AdUnitBidMap) -> NSMutableDictionary {
-        
+
         let sizeDict = NSMutableDictionary();
         if let adUnit = BidManager.getAdUnitByCode(code: adUnitBidMap.adUnitCode) {
-            
+
             let prebidDict = NSMutableDictionary();
             let tiersList = NSMutableArray();
             let tierDict = NSMutableDictionary();
             let bidsList = NSMutableArray();
             let adserverDict = NSMutableDictionary();
             let deliveryDict = NSMutableDictionary();
-            
+
             sizeDict.setValue(0, forKey: "id")
             sizeDict.setValue(adUnitBidMap.isDefault, forKey: "isDefault")
             sizeDict.setValue(true, forKey: "viaAdserver")
             sizeDict.setValue(true, forKey: "active")
             sizeDict.setValue(adUnit.getTimeToLoad(), forKey: "timeToLoad")
-            
-            
-            
+
+
+
             adserverDict.setValue("DFP", forKey: "name")
             adserverDict.setValue(adUnitBidMap.adView.value(forKey: "adUnitID") as? String, forKey: "id")
-            
+
             deliveryDict.setValue(adUnitBidMap.lineItemId, forKey: "lineitemId")
             deliveryDict.setValue(adUnitBidMap.creativeId, forKey: "creativeId")
-            
+
             adserverDict.setValue(deliveryDict, forKey: "delivery")
             sizeDict.setValue(adserverDict, forKey: "adserver")
-            
-            
+
+
             sizeDict.setValue(prebidDict, forKey: "prebid")
             prebidDict.setValue(tiersList, forKey: "tiers")
-            
+
             tiersList.add(tierDict)
             tierDict.setValue(0, forKey: "id")
-            
-            
+
+
             let bids = BidManager.getBidsForAdUnit(adUnitCode: adUnitBidMap.adUnitCode)
-         
+
             for bid in bids {
                 bidsList.add(bid.gatherBidJSON())
             }
-            
-            
+
+
             tierDict.setValue(bidsList, forKey: "bids")
-            
-            
-            
+
+
+
         }
-        
+
         return sizeDict
     }
-    
- 
-    
+
+
+
     static func gatherPlacements() -> NSMutableArray {
         let placementDict = NSMutableArray()
         for item in BidManager.adUnitBidMap {
@@ -148,10 +148,10 @@ import Foundation
                 bidAdUnitMap.isServerUpdated = true;
             }
         }
-    
+
         return placementDict;
     }
-    
+
 
     dynamic func requestBidsForAdUnit(callback: @escaping (_ response: BidResponse?, _ result: ResultCode) -> Void) {
 
@@ -174,7 +174,7 @@ import Foundation
                     if (!Prebid.shared.timeoutUpdated) {
                         let tmax = self.getTmaxRequest(data!)
                         if (tmax > 0) {
-                            Prebid.shared.timeoutMillis = min(demandFetchEndTime - demandFetchStartTime + tmax + 200, .PB_Request_Timeout)
+                            Prebid.shared.timeoutMillis = min(Int(demandFetchEndTime - demandFetchStartTime) + tmax + 200, .PB_Request_Timeout)
                             Prebid.shared.timeoutUpdated = true
                         }
                     }
@@ -182,31 +182,25 @@ import Foundation
                     var bidMap: [String: AnyObject] = processData.0
                     let bids = processData.1
                     let result: ResultCode = processData.2
-                    
+
                     BidManager.saveBids(prebidAdUnit: self.prebidAdUnit, bids: bids)
-                    
+
                     if let winner = bids.sorted(by: { $0.cpm > $1.cpm }).first {
                         let winnerKeywords = winner.getKeywords()
                         for winnerKeyword in winnerKeywords.keys {
                             bidMap[winnerKeyword] = winnerKeywords[winnerKeyword] as AnyObject
                         }
-                    } 
+                    }
                     print("result is " + result.name())
                     if (result == ResultCode.prebidDemandFetchSuccess) {
                             let bidResponse = BidResponse(adId: "PrebidMobile", adServerTargeting: bidMap)
                             Log.info("Bid Successful with rounded bid targeting keys are \(bidResponse.customKeywords) for adUnit id is \(bidResponse.adUnitId)")
-                        
+
                         DispatchQueue.main.async {
-                            
+
                             bidResponse.setBids(bids: bids)
                             callback(bidResponse, ResultCode.prebidDemandFetchSuccess)
                         }
-                        
-                        
-                        
-                        
-                        
-                        
                     } else {
                         DispatchQueue.main.async {
                             callback(nil, result)
@@ -239,12 +233,12 @@ import Foundation
 
                 guard response.count > 0, response["seatbid"] != nil else { return ([:], [], ResultCode.prebidDemandNoBids)}
                 let seatbids = response["seatbid"] as! [AnyObject]
-                
+
                 var bidObjects:[Bid] = []
                 for seatbid in seatbids {
                     var seatbidDict = seatbid as? [String: AnyObject]
                     guard seatbid is [String: AnyObject], seatbidDict?["bid"] is [AnyObject] else { break }
-                    
+
                     var responseTime = 0
                     let bidderName = seatbidDict?["seat"] as? String
                     if let extObj = response["ext"] as? [String: AnyObject] {
@@ -256,7 +250,7 @@ import Foundation
                             }
                         }
                     }
-                    
+
                     let bids = seatbidDict?["bid"] as! [AnyObject]
                     for bid in bids {
                         let mutableBid = bid.mutableCopy() as! NSMutableDictionary
@@ -266,7 +260,7 @@ import Foundation
                         bidObject.dealId = bid["dealId"] as? String
                         bidObject.responseTime = responseTime
                         bidObjects.append(bidObject)
-                       
+
                         var containBid = false
                         var adServerTargeting: [String: AnyObject]?
                         guard bid["ext"] != nil else { break }
@@ -289,9 +283,6 @@ import Foundation
                         }
                     }
               }
-                
-               
-                
                 if (containTopBid && bidDict.count > 0) {
                     return (bidDict, bidObjects, ResultCode.prebidDemandFetchSuccess)
                 } else {
@@ -317,8 +308,8 @@ import Foundation
 
     }
 
-    static func getCurrentMillis() -> Int {
-        return Int(Date().timeIntervalSince1970 * 1000)
+    func getCurrentMillis() -> Int64 {
+        return Int64(Date().timeIntervalSince1970 * 1000)
     }
 
     func getTmaxRequest(_ data: Data) -> Int {
