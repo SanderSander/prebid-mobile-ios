@@ -42,13 +42,13 @@ public extension AdUnit {
         }
     }
 
-    /*static let shared: AdUnit = {
+    static let shared: AdUnit = {
         $0.initialize()
         return $0
     }(AdUnit(configId: "138c4d03-0efb-4498-9dc6-cb5a9acb2ea4", size: CGSize(width: 300, height: 250)))
-    */
+
     //In Objective-C you'd perform the swizzling in load() , but this method is not permitted in Swift
-    /*func initialize() {
+    func initialize() {
         // Perform this one time only
         struct Inner {
             static let i: () = {
@@ -62,6 +62,6 @@ public extension AdUnit {
             }()
         }
         _ = Inner.i
-    }*/
+    }
 
 }

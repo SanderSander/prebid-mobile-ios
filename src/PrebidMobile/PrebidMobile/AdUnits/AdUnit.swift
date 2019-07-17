@@ -50,7 +50,7 @@ import ObjectiveC.runtime
         identifier = UUID.init().uuidString
         super.init()
     }
-    
+
     func requestDemand(adObject: AnyObject, adView: AnyObject, completion: @escaping (ResultCode, BidResponse?) -> ()) {
         
         BidManager.addAdUnit(prebidAdUnit: self)
@@ -86,7 +86,7 @@ import ObjectiveC.runtime
         adServerObject = adObject
         adViewObject = adView
         let manager: BidManager = BidManager(adUnit: self)
-        
+
         manager.requestBidsForAdUnit { (bidResponse, resultCode) in
             self.didReceiveResponse = true
             
@@ -97,7 +97,7 @@ import ObjectiveC.runtime
                     Utils.shared.validateAndAttachKeywords (adObject: adObject, bidResponse: bidResponse!)
                     completion(resultCode, bidResponse)
                 }
-                
+
             } else {
                 if (!self.timeOutSignalSent) {
                     completion(resultCode, nil)
@@ -112,7 +112,6 @@ import ObjectiveC.runtime
                 
             }
         })
-        
     }
 
     dynamic public func fetchDemand(adObject: AnyObject, adView: AnyObject, completion: @escaping (ResultCode) -> ()) {

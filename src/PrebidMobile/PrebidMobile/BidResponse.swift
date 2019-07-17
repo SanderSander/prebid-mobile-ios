@@ -23,7 +23,7 @@ class BidResponse: NSObject {
      * the adUnitId is the adUnit identifier that the bid response corresponds to
      */
     private(set) var adUnitId: String = ""
-    
+
     var myUnitId: String? = "" {
         didSet {
             adUnitId = myUnitId!
@@ -42,7 +42,6 @@ class BidResponse: NSObject {
             customKeywords = myCustomKeywords
         }
     }
-    
 
     init(adId: String, adServerTargeting: [String: AnyObject]) {
         super.init()
@@ -62,7 +61,5 @@ class BidResponse: NSObject {
     func getBids() -> [Bid] {
         return self.bids
     }
- 
-    
 
 }

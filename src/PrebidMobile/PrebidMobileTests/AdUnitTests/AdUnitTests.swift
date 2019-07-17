@@ -28,7 +28,6 @@ class AdUnitTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    /*
     func testFetchDemandSuccess() {
         let adUnit: AdUnit = AdUnit.shared
         adUnit.testScenario = ResultCode.prebidDemandFetchSuccess
@@ -78,6 +77,5 @@ class AdUnitTests: XCTestCase {
             XCTAssertEqual(resultCode.name(), "Prebid server does not recognize the size requested")
         }
     }
-     */
 
 }

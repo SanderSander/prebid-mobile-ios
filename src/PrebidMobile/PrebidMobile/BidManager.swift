@@ -23,7 +23,6 @@ import Foundation
     private static var adUnitBidMap:[String : [AdUnitBidMap]] = [:]
     private static var bidMap:[String : [Bid]] = [:]
 
-
     init(adUnit: AdUnit) {
 
         prebidAdUnit = adUnit
@@ -102,8 +101,6 @@ import Foundation
             sizeDict.setValue(true, forKey: "active")
             sizeDict.setValue(adUnit.getTimeToLoad(), forKey: "timeToLoad")
 
-
-
             adserverDict.setValue("DFP", forKey: "name")
             adserverDict.setValue(adUnitBidMap.adView.value(forKey: "adUnitID") as? String, forKey: "id")
 
@@ -120,18 +117,13 @@ import Foundation
             tiersList.add(tierDict)
             tierDict.setValue(0, forKey: "id")
 
-
             let bids = BidManager.getBidsForAdUnit(adUnitCode: adUnitBidMap.adUnitCode)
 
             for bid in bids {
                 bidsList.add(bid.gatherBidJSON())
             }
 
-
             tierDict.setValue(bidsList, forKey: "bids")
-
-
-
         }
 
         return sizeDict
