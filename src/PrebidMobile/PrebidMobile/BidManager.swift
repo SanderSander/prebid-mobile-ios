@@ -196,7 +196,7 @@ import Foundation
 
         } catch let error {
             Log.debug(error.localizedDescription)
-
+            
             let errorCode = ResultCode.prebidServerURLInvalid
             Log.error(errorCode.name())
             callback(nil, errorCode)

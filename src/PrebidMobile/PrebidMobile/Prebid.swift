@@ -55,6 +55,11 @@ import Foundation
     }
 
     /**
+     * Set the desidered verbosity of the logs
+     */
+    public var logLevel: LogLevel = .debug
+
+    /**
      * The class is created as a singleton object & used
      */
     public static let shared = Prebid()
