@@ -8,21 +8,20 @@
 
 import Foundation
 class AdUnitBidMap {
-    
-    public var adView:AnyObject
-    public var adUnitCode:String
-    
+
+    public var adView: AnyObject
+    public var adUnitCode: String
+
     public var isWinner = false
     public var isDefault = false
     public var isServerUpdated = false
-    
-    public var lineItemId:String = "";
-    public var creativeId:String = "";
-    
-    init(adView:AnyObject, adUnitCode:String) {
-        self.adView = adView;
-        self.adUnitCode = adUnitCode;
+
+    public var lineItemId: String = ""
+    public var creativeId: String = ""
+
+    init(adView: AnyObject, adUnitCode: String) {
+        self.adView = adView
+        self.adUnitCode = adUnitCode
     }
-    
-    
+
 }
