@@ -241,14 +241,13 @@ import Foundation
 
                     var responseTime = 0
                     let bidderName = seatbidDict?["seat"] as? String
-                    if let extObj = response["ext"] as? [String: AnyObject] {
-                        if let responseTimeObj = extObj["responsetimemillis"] as? [String:AnyObject] {
-                            if bidderName != nil {
-                                if let time = responseTimeObj[bidderName!] as? Int {
-                                    responseTime = time
-                                }
-                            }
-                        }
+
+                    if let extObj = response["ext"] as? [String: AnyObject],
+                       let responseTimeObj = extObj["responsetimemillis"] as? [String:AnyObject],
+                       bidderName != nil,
+                       let time = responseTimeObj[bidderName!] as? Int
+                    {
+                        responseTime = time
                     }
 
                     let bids = seatbidDict?["bid"] as! [AnyObject]
