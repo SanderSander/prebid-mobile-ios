@@ -51,14 +51,31 @@ import ObjectiveC.runtime
         super.init()
     }
 
+    dynamic public func fetchDemand(adObject: AnyObject, adView: AnyObject, completion: @escaping (_ result: ResultCode) -> Void) {
+
+        self.closure = completion
+        requestDemand(adObject: adObject, adView: adView, completion: {
+            resultCode, bidResponse in
+
+            if (bidResponse != nil && resultCode == ResultCode.prebidDemandFetchSuccess) {
+                CacheManager.getCacheManager().saveBids(bids: bidResponse!.getBids(), completion: {
+                    completion(resultCode);
+                });
+            } else {
+                completion(resultCode);
+            }
+
+        })
+    }
+
     func requestDemand(adObject: AnyObject, adView: AnyObject, completion: @escaping (ResultCode, BidResponse?) -> ()) {
-        
+
+        Utils.shared.removeHBKeywords(adObject: adObject)
+
         BidManager.addAdUnit(prebidAdUnit: self)
         let adUnitBidMap = BidManager.addAdUnitBidMap(prebidAdUnit: self, adView: adView)
         let adUnit = BidManager.getAdUnitByCode(code: adUnitBidMap.adUnitCode)
         adUnit?.startLoadTime = Utils.shared.getCurrentMillis()
-        
-        Utils.shared.removeHBKeywords(adObject: adObject)
 
         for size in adSizes {
             if (size.width < 0 || size.height < 0) {
@@ -111,22 +128,6 @@ import ObjectiveC.runtime
                 completion(ResultCode.prebidDemandTimedOut, nil)
                 
             }
-        })
-    }
-
-    dynamic public func fetchDemand(adObject: AnyObject, adView: AnyObject, completion: @escaping (ResultCode) -> ()) {
-        self.closure = completion
-        requestDemand(adObject: adObject, adView: adView, completion: {
-            resultCode, bidResponse in
-            
-            if (bidResponse != nil && resultCode == ResultCode.prebidDemandFetchSuccess) {
-                CacheManager.getCacheManager().saveBids(bids: bidResponse!.getBids(), completion: {
-                    completion(resultCode);
-                });
-            } else {
-                completion(resultCode);
-            }
-            
         })
     }
 
