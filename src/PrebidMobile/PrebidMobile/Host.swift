@@ -28,11 +28,14 @@ import Foundation
     case Rubicon
     
     case Custom
+    
+    case AdSolutions
 
     func name () -> String {
         switch self {
         case .Appnexus: return "https://prebid.adnxs.com/pbs/v1/openrtb2/auction"
         case .Rubicon: return "https://prebid-server.rubiconproject.com/openrtb2/auction"
+        case .AdSolutions: return "https://auction.biddercore.io/openrtb2/auction"
         case .Custom: return ""
         }
     }

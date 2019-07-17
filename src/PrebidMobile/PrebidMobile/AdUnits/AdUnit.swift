@@ -23,12 +23,17 @@ import ObjectiveC.runtime
 
     var dispatcher: Dispatcher?
 
+    var startLoadTime = Int64(0)
+    var stopLoadTime = Int64(0)
+
     private var customKeywords = [String: Array<String>]()
 
     //This flag is set to check if the refresh needs to be made though the user has not invoked the fetch demand after initialization
     private var isInitialFetchDemandCallMade: Bool = false
 
     private var adServerObject: AnyObject?
+    
+    private var adViewObject: AnyObject?
 
     private var closure: (ResultCode) -> Void
 
@@ -46,23 +51,45 @@ import ObjectiveC.runtime
         super.init()
     }
 
-    dynamic public func fetchDemand(adObject: AnyObject, completion: @escaping(_ result: ResultCode) -> Void) {
+    dynamic public func fetchDemand(adObject: AnyObject, adView: AnyObject, completion: @escaping (_ result: ResultCode) -> Void) {
+
+        self.closure = completion
+        requestDemand(adObject: adObject, adView: adView, completion: {
+            resultCode, bidResponse in
+
+            if (bidResponse != nil && resultCode == ResultCode.prebidDemandFetchSuccess) {
+                CacheManager.getCacheManager().saveBids(bids: bidResponse!.getBids(), completion: {
+                    completion(resultCode);
+                });
+            } else {
+                completion(resultCode);
+            }
+
+        })
+    }
+
+    func requestDemand(adObject: AnyObject, adView: AnyObject, completion: @escaping (ResultCode, BidResponse?) -> ()) {
 
         Utils.shared.removeHBKeywords(adObject: adObject)
 
+        BidManager.addAdUnit(prebidAdUnit: self)
+        let adUnitBidMap = BidManager.addAdUnitBidMap(prebidAdUnit: self, adView: adView)
+        let adUnit = BidManager.getAdUnitByCode(code: adUnitBidMap.adUnitCode)
+        adUnit?.startLoadTime = Utils.shared.getCurrentMillis()
+
         for size in adSizes {
             if (size.width < 0 || size.height < 0) {
-                completion(ResultCode.prebidInvalidSize)
+                completion(ResultCode.prebidInvalidSize, nil)
                 return
             }
         }
 
         if (prebidConfigId.isEmpty || (prebidConfigId.trimmingCharacters(in: CharacterSet.whitespaces)).count == 0) {
-            completion(ResultCode.prebidInvalidConfigId)
+            completion(ResultCode.prebidInvalidConfigId, nil)
             return
         }
         if (Prebid.shared.prebidServerAccountId.isEmpty || (Prebid.shared.prebidServerAccountId.trimmingCharacters(in: CharacterSet.whitespaces)).count == 0) {
-            completion(ResultCode.prebidInvalidAccountId)
+            completion(ResultCode.prebidInvalidAccountId, nil)
             return
         }
 
@@ -73,21 +100,24 @@ import ObjectiveC.runtime
 
         didReceiveResponse = false
         timeOutSignalSent = false
-        self.closure = completion
         adServerObject = adObject
+        adViewObject = adView
         let manager: BidManager = BidManager(adUnit: self)
 
         manager.requestBidsForAdUnit { (bidResponse, resultCode) in
             self.didReceiveResponse = true
+            
+            print("requestBidsForAdunit responded with bidResponse==" + (bidResponse == nil).description + " and timeout sent " + self.timeOutSignalSent.description)
+            
             if (bidResponse != nil) {
                 if (!self.timeOutSignalSent) {
                     Utils.shared.validateAndAttachKeywords (adObject: adObject, bidResponse: bidResponse!)
-                    completion(resultCode)
+                    completion(resultCode, bidResponse)
                 }
 
             } else {
                 if (!self.timeOutSignalSent) {
-                    completion(resultCode)
+                    completion(resultCode, nil)
                 }
             }
         }
@@ -95,8 +125,8 @@ import ObjectiveC.runtime
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(.PB_Request_Timeout), execute: {
             if (!self.didReceiveResponse) {
                 self.timeOutSignalSent = true
-                completion(ResultCode.prebidDemandTimedOut)
-
+                completion(ResultCode.prebidDemandTimedOut, nil)
+                
             }
         })
     }
@@ -181,7 +211,7 @@ import ObjectiveC.runtime
 
     func refreshDemand() {
         if (adServerObject != nil) {
-            self.fetchDemand(adObject: adServerObject!, completion: self.closure)
+            self.fetchDemand(adObject: adServerObject!, adView: adViewObject!, completion: self.closure)
         }
 
     }
@@ -207,6 +237,18 @@ import ObjectiveC.runtime
 
         dispatcher.stop()
         self.dispatcher = nil
+    }
+    
+    func getTimeToLoad() -> Int64 {
+        if self.startLoadTime > 0 {
+            if stopLoadTime < startLoadTime {
+                let currentTime = Date().timeIntervalSince1970 * 1000
+                return Int64(currentTime) - startLoadTime
+            } else {
+                return stopLoadTime - startLoadTime
+            }
+        }
+        return 0
     }
 
 }

@@ -32,6 +32,9 @@ class BidResponse: NSObject {
     /**
      * customKeywords is a dictionary of all the response objects returned by the demand source that can be used in future
      */
+    
+    private var bids:[Bid] = []
+    
     private(set) var customKeywords: [String: String] = [:]
 
     private var myCustomKeywords: [String: String] = [:] {
@@ -49,6 +52,14 @@ class BidResponse: NSObject {
 
     func setMyCustomKeywords(newValue: [String: String]) {
         self.myCustomKeywords = newValue
+    }
+    
+    func setBids(bids:[Bid]) {
+        self.bids = bids;
+    }
+    
+    func getBids() -> [Bid] {
+        return self.bids
     }
 
 }
