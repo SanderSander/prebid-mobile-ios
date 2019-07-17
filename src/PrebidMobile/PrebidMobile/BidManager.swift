@@ -157,9 +157,9 @@ import Foundation
 
         do {
             try RequestBuilder.shared.buildPrebidRequest(adUnit: prebidAdUnit) {(urlRequest) in
-                let demandFetchStartTime = BidManager.getCurrentMillis()
+                let demandFetchStartTime = self.getCurrentMillis()
                 URLSession.shared.dataTask(with: urlRequest!) { data, _, error in
-                    let demandFetchEndTime = BidManager.getCurrentMillis()
+                    let demandFetchEndTime = self.getCurrentMillis()
                     guard error == nil else {
                         print("error calling GET on /todos/1")
                         return

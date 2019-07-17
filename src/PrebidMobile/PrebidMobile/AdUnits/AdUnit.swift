@@ -22,9 +22,9 @@ import ObjectiveC.runtime
     var identifier: String
 
     var dispatcher: Dispatcher?
-    
-    var startLoadTime = 0
-    var stopLoadTime = 0
+
+    var startLoadTime = Int64(0)
+    var stopLoadTime = Int64(0)
 
     private var customKeywords = [String: Array<String>]()
 
@@ -56,17 +56,17 @@ import ObjectiveC.runtime
         BidManager.addAdUnit(prebidAdUnit: self)
         let adUnitBidMap = BidManager.addAdUnitBidMap(prebidAdUnit: self, adView: adView)
         let adUnit = BidManager.getAdUnitByCode(code: adUnitBidMap.adUnitCode)
-        adUnit?.startLoadTime = BidManager.getCurrentMillis()
+        adUnit?.startLoadTime = Utils.shared.getCurrentMillis()
         
         Utils.shared.removeHBKeywords(adObject: adObject)
-        
+
         for size in adSizes {
             if (size.width < 0 || size.height < 0) {
                 completion(ResultCode.prebidInvalidSize, nil)
                 return
             }
         }
-        
+
         if (prebidConfigId.isEmpty || (prebidConfigId.trimmingCharacters(in: CharacterSet.whitespaces)).count == 0) {
             completion(ResultCode.prebidInvalidConfigId, nil)
             return
@@ -75,12 +75,12 @@ import ObjectiveC.runtime
             completion(ResultCode.prebidInvalidAccountId, nil)
             return
         }
-        
+
         if !isInitialFetchDemandCallMade {
             isInitialFetchDemandCallMade = true
             startDispatcher()
         }
-        
+
         didReceiveResponse = false
         timeOutSignalSent = false
         adServerObject = adObject
@@ -104,7 +104,7 @@ import ObjectiveC.runtime
                 }
             }
         }
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(.PB_Request_Timeout), execute: {
             if (!self.didReceiveResponse) {
                 self.timeOutSignalSent = true
@@ -239,11 +239,11 @@ import ObjectiveC.runtime
         self.dispatcher = nil
     }
     
-    func getTimeToLoad() -> Int {
+    func getTimeToLoad() -> Int64 {
         if self.startLoadTime > 0 {
             if stopLoadTime < startLoadTime {
                 let currentTime = Date().timeIntervalSince1970 * 1000
-                return Int(currentTime) - startLoadTime
+                return Int64(currentTime) - startLoadTime
             } else {
                 return stopLoadTime - startLoadTime
             }

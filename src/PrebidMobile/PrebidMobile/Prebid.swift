@@ -71,8 +71,6 @@ import Foundation
             }
         }
     }
-    
-
 
     public func setCustomPrebidServer(url: String) throws {
 
@@ -95,7 +93,7 @@ import Foundation
         if (bidMap != nil) {
             bidMap!.isServerUpdated = false;
             let adUnit = BidManager.getAdUnitByCode(code: bidMap!.adUnitCode)
-            adUnit?.stopLoadTime = BidManager.getCurrentMillis()
+            adUnit?.stopLoadTime = Utils.shared.getCurrentMillis()
         }
     }
     
