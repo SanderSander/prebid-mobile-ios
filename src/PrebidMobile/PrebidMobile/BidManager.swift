@@ -181,7 +181,6 @@ import Foundation
                             Log.info("Bid Successful with rounded bid targeting keys are \(bidResponse.customKeywords) for adUnit id is \(bidResponse.adUnitId)")
 
                         DispatchQueue.main.async {
-
                             bidResponse.setBids(bids: bids)
                             callback(bidResponse, ResultCode.prebidDemandFetchSuccess)
                         }

@@ -81,12 +81,11 @@ import Foundation
             Host.shared.setHostURL = url
         }
     }
-    
+
     func gatherPlacements() -> NSMutableArray {
-        
         return BidManager.gatherPlacements()
     }
-    
+
     public func markAdUnitLoaded(adView:AnyObject) {
         let bidMap = BidManager.getAdUnitMapByAdView(adView: adView)
         
@@ -96,7 +95,7 @@ import Foundation
             adUnit?.stopLoadTime = Utils.shared.getCurrentMillis()
         }
     }
-    
+
     public func markWinner(adUnitCode:String, creativeCode:String) {
         let bids = BidManager.getBidsForAdUnit(adUnitCode: adUnitCode)
         for bid in bids {
@@ -105,7 +104,7 @@ import Foundation
             }
         }
     }
-    
+
     public func adUnitReceivedAppEvent(adView:AnyObject, instruction:String, prm:String?) {
         
         if prm != nil {
@@ -125,21 +124,14 @@ import Foundation
                 }
             }
         }
-        
-        
-        
     }
-    
-    
-    
+
     public func adUnitReceivedDefault(adView:AnyObject) {
         let bidMap = BidManager.getAdUnitMapByAdView(adView: adView)
         bidMap?.isDefault = true
     }
     
     func trackStats(dictionary:NSMutableDictionary) {
-        
-        
         var mutableRequest = URLRequest(url: URL(string: "https://tagmans3.adsolutions.com/log/")!, cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalCacheData, timeoutInterval: 1000)
         mutableRequest.httpMethod = "POST"
         
@@ -155,16 +147,14 @@ import Foundation
             }
             
         }).resume()
-        
     }
-    
+
     public func gatherStats() {
         let statsDict = NSMutableDictionary()
         let height = UIScreen.main.bounds.size.height;
         let width = UIScreen.main.bounds.size.width;
         let language = Locale.preferredLanguages.first
-        
-        
+
         statsDict["client"] = self.prebidServerAccountId
         statsDict["host"] = self.appName;
         statsDict["page"] = self.appPage;
@@ -179,7 +169,7 @@ import Foundation
         }
         let placements = self.gatherPlacements()
         statsDict["placements"] = placements
-        
+
         self.lastGatherStats = currentTime
         if placements.count > 0 {
             print("Gather stats sent with " + statsDict.description)
@@ -187,11 +177,5 @@ import Foundation
         } else {
             print("Ignoring gatherStats because now changes are made")
         }
-        
-        
-    
-        
     }
-    
-   
 }

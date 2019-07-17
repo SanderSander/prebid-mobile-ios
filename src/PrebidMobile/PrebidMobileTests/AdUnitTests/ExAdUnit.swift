@@ -29,7 +29,7 @@ public extension AdUnit {
         }
     }
 
-    func mock_fetchDemandSuccess(adObject: AnyObject, completion: @escaping(_ result: ResultCode) -> Void) {
+    func mock_fetchDemandSuccess(adObject: AnyObject, adView: AnyObject, completion: @escaping(_ result: ResultCode) -> Void) {
 
         if (AdUnit._myComputedProperty == ResultCode.prebidDemandFetchSuccess) {
             completion(ResultCode.prebidDemandFetchSuccess)
@@ -52,8 +52,8 @@ public extension AdUnit {
         // Perform this one time only
         struct Inner {
             static let i: () = {
-                let originalSelector = #selector(AdUnit.fetchDemand(adObject:completion:))
-                let swizzledSelector = #selector(AdUnit.mock_fetchDemandSuccess(adObject:completion:))
+                let originalSelector = #selector(AdUnit.fetchDemand(adObject:adView:completion:))
+                let swizzledSelector = #selector(AdUnit.mock_fetchDemandSuccess(adObject:adView:completion:))
 
                 let originalMethod = class_getInstanceMethod(AdUnit.self, originalSelector)
                 let swizzledMethod = class_getInstanceMethod(AdUnit.self, swizzledSelector)
