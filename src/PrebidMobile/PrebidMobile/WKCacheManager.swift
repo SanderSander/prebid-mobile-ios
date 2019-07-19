@@ -34,7 +34,7 @@ public class WKCacheManager: NSObject, WKNavigationDelegate {
         UIApplication.shared.keyWindow!.addSubview(webView)
 
         let elapsedTime = Date().timeIntervalSince1970 - startTime
-        print("CacheManager initialization took " + elapsedTime.description + " ms")
+        Log.debug("CacheManager initialization took " + elapsedTime.description + " ms")
         self.webViewCompletionHandlers.append({
             self.cleanupBids()
             self.setupBidCleanup()
@@ -53,9 +53,9 @@ public class WKCacheManager: NSObject, WKNavigationDelegate {
             obj, _ in
 
             if let result = obj {
-                print(result)
+                Log.debug(result)
             } else {
-                print("JS localStorage info debug didn't return a value")
+                Log.debug("JS localStorage info debug didn't return a value")
             }
 
         })
@@ -85,7 +85,7 @@ public class WKCacheManager: NSObject, WKNavigationDelegate {
             _, _ in
 
             let elapsedTime = self.getTimeElapsed(startTime: dateStarted)
-            print("CacheManager did cache bids in " + elapsedTime.description + " ms")
+            Log.debug("CacheManager did cache bids in " + elapsedTime.description + " ms")
             completion()
 
         })
@@ -133,7 +133,7 @@ public class WKCacheManager: NSObject, WKNavigationDelegate {
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
 
         let elapsedTime = Date().timeIntervalSince1970 - startTime
-        print("CacheManager webView loaded in " + elapsedTime.description + " ms")
+        Log.debug("CacheManager webView loaded in " + elapsedTime.description + " ms")
 
         self.isWebViewFinished = true
 
@@ -167,7 +167,7 @@ public class WKCacheManager: NSObject, WKNavigationDelegate {
             _, _ in
 
             let elapsedTime = self.getTimeElapsed(startTime: startDate)
-            print("CacheManager did do cleanup in " + elapsedTime.description + " ms")
+            Log.debug("CacheManager did do cleanup in " + elapsedTime.description + " ms")
 
         })
     }

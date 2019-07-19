@@ -30,7 +30,7 @@ public class CacheManager: NSObject, UIWebViewDelegate {
         UIApplication.shared.keyWindow!.addSubview(webView)
 
         let elapsedTime = Date().timeIntervalSince1970 - startTime
-        print("CacheManager initialization took " + elapsedTime.description + " ms")
+        Log.debug("CacheManager initialization took " + elapsedTime.description + " ms")
         self.webViewCompletionHandlers.append({
             self.cleanupBids()
             self.setupBidCleanup()
@@ -46,9 +46,9 @@ public class CacheManager: NSObject, UIWebViewDelegate {
 
     private func debugLocalStorageInfo() {
         if let result = self.webView.stringByEvaluatingJavaScript(from: "window.location.host + ' has ' + localStorage.length + ' localStorage items'") {
-            print(result)
+            Log.debug(result)
         } else {
-            print("JS localStorage info debug didn't return a value")
+            Log.debug("JS localStorage info debug didn't return a value")
         }
     }
 
@@ -75,7 +75,7 @@ public class CacheManager: NSObject, UIWebViewDelegate {
 
         self.webView.stringByEvaluatingJavaScript(from: script)
         let elapsedTime = self.getTimeElapsed(startTime: dateStarted)
-        print("CacheManager did cache bids in " + elapsedTime.description + " ms")
+        Log.debug("CacheManager did cache bids in " + elapsedTime.description + " ms")
         completion()
 
         debugLocalStorageInfo()
@@ -120,7 +120,7 @@ public class CacheManager: NSObject, UIWebViewDelegate {
 
     public func webViewDidFinishLoad(_ webView: UIWebView) {
         let elapsedTime = Date().timeIntervalSince1970 - startTime
-        print("CacheManager webView loaded in " + elapsedTime.description + " ms")
+        Log.debug("CacheManager webView loaded in " + elapsedTime.description + " ms")
 
         self.isWebViewFinished = true
 
@@ -152,7 +152,7 @@ public class CacheManager: NSObject, UIWebViewDelegate {
 
         self.webView.stringByEvaluatingJavaScript(from: removeCacheScript)
         let elapsedTime = self.getTimeElapsed(startTime: startDate)
-        print("CacheManager did do cleanup in " + elapsedTime.description + " ms")
+        Log.debug("CacheManager did do cleanup in " + elapsedTime.description + " ms")
     }
 
     private func setupBidCleanup() {

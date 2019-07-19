@@ -147,8 +147,8 @@ import Foundation
             data, urlResponse, error in
             
             if (error != nil) {
-                print("Statstracker finished with error: ")
-                print(error?.localizedDescription)
+                Log.debug("Statstracker finished with error: ")
+                Log.debug(error?.localizedDescription)
             }
             
         }).resume()
@@ -177,10 +177,10 @@ import Foundation
 
         self.lastGatherStats = currentTime
         if placements.count > 0 {
-            print("Gather stats sent with " + statsDict.description)
+            Log.debug("Gather stats sent with " + statsDict.description)
             trackStats(dictionary: statsDict)
         } else {
-            print("Ignoring gatherStats because now changes are made")
+            Log.debug("Ignoring gatherStats because now changes are made")
         }
     }
 }

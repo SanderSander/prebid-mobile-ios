@@ -175,7 +175,7 @@ import Foundation
                             bidMap[winnerKeyword] = winnerKeywords[winnerKeyword] as AnyObject
                         }
                     }
-                    print("result is " + result.name())
+                    Log.debug("result is " + result.name())
                     if (result == ResultCode.prebidDemandFetchSuccess) {
                             let bidResponse = BidResponse(adId: "PrebidMobile", adServerTargeting: bidMap)
                             Log.info("Bid Successful with rounded bid targeting keys are \(bidResponse.customKeywords) for adUnit id is \(bidResponse.adUnitId)")

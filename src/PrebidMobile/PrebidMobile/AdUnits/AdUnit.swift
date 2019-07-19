@@ -107,7 +107,7 @@ import ObjectiveC.runtime
         manager.requestBidsForAdUnit { (bidResponse, resultCode) in
             self.didReceiveResponse = true
             
-            print("requestBidsForAdunit responded with bidResponse==" + (bidResponse == nil).description + " and timeout sent " + self.timeOutSignalSent.description)
+            Log.debug("requestBidsForAdunit responded with bidResponse==" + (bidResponse == nil).description + " and timeout sent " + self.timeOutSignalSent.description)
             
             if (bidResponse != nil) {
                 if (!self.timeOutSignalSent) {
