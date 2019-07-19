@@ -23,6 +23,8 @@ import ObjectiveC.runtime
 
     var dispatcher: Dispatcher?
 
+    var cancelWorkItem : DispatchWorkItem?;
+
     var startLoadTime = Int64(0)
     var stopLoadTime = Int64(0)
 
@@ -98,6 +100,17 @@ import ObjectiveC.runtime
             startDispatcher()
         }
 
+        if(self.cancelWorkItem != nil && !self.cancelWorkItem!.isCancelled) {
+            self.cancelWorkItem!.cancel()
+        }
+        self.cancelWorkItem = DispatchWorkItem {
+            if (!self.didReceiveResponse) {
+                Log.debug("Received timeout signal.")
+                self.timeOutSignalSent = true
+                completion(ResultCode.prebidDemandTimedOut, nil)
+            }
+        }
+
         didReceiveResponse = false
         timeOutSignalSent = false
         adServerObject = adObject
@@ -122,13 +135,7 @@ import ObjectiveC.runtime
             }
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(.PB_Request_Timeout), execute: {
-            if (!self.didReceiveResponse) {
-                self.timeOutSignalSent = true
-                completion(ResultCode.prebidDemandTimedOut, nil)
-                
-            }
-        })
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(.PB_Request_Timeout), execute: self.cancelWorkItem!)
     }
 
     var userKeywords: [String: [String]] {
