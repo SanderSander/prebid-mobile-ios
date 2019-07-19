@@ -10,24 +10,23 @@ import Foundation
 import WebKit
 import UIKit
 
-public class CacheManager: NSObject, UIWebViewDelegate {
+class CacheManager: NSObject, UIWebViewDelegate {
 
     private static var cache: CacheManager?
 
-    private var delegate: UIWebViewDelegate!
+    private weak var delegate: UIWebViewDelegate!
     private var webView: UIWebView!
     private var startTime: Double!
     private var isWebViewFinished = false
     private var webViewCompletionHandlers: [CompletionHandler] = []
 
-    public override init() {
+    public init(window: CacheManagerWindowProtocol) {
         super.init()
 
         self.startTime = Date().timeIntervalSince1970
         self.webView = UIWebView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
-        self.delegate = self
-        self.webView.delegate = self.delegate
-        UIApplication.shared.keyWindow!.addSubview(webView)
+        self.webView.delegate = self
+        window.addSubview(webView)
 
         let elapsedTime = Date().timeIntervalSince1970 - startTime
         Log.debug("CacheManager initialization took " + elapsedTime.description + " ms")
@@ -40,7 +39,7 @@ public class CacheManager: NSObject, UIWebViewDelegate {
 
     public static func configure() {
         if (CacheManager.cache == nil) {
-            CacheManager.cache = CacheManager()
+            CacheManager.cache = CacheManager(window: UIApplication.shared.keyWindow!)
         }
     }
 
@@ -82,8 +81,8 @@ public class CacheManager: NSObject, UIWebViewDelegate {
 
     }
 
-    func saveBids(bids: [Bid], completion:@escaping CompletionHandler) {
-        DispatchQueue.main.async {
+    func saveBids(bids: [Bid], onQueue: DispatchQueue = DispatchQueue.main, completion:@escaping CompletionHandler) {
+        onQueue.async {
             if self.isWebViewFinished {
                 self.cacheBids(bids: bids, completion: completion)
             } else {
@@ -163,3 +162,9 @@ public class CacheManager: NSObject, UIWebViewDelegate {
     }
 
 }
+
+protocol CacheManagerWindowProtocol {
+    func addSubview(_ view: UIView)
+}
+
+extension UIView: CacheManagerWindowProtocol { }
