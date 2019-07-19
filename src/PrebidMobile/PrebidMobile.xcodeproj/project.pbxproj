@@ -67,6 +67,7 @@
 		F543D52F220E101B00F1EF8F /* responseValidTwoBidsOnTheSameSeat.json in Resources */ = {isa = PBXBuildFile; fileRef = F543D52E220E101A00F1EF8F /* responseValidTwoBidsOnTheSameSeat.json */; };
 		F543D532220E193200F1EF8F /* noBidResponseTmaxTooLarge.json in Resources */ = {isa = PBXBuildFile; fileRef = F543D530220E193200F1EF8F /* noBidResponseTmaxTooLarge.json */; };
 		F543D533220E193200F1EF8F /* noBidResponseNoTmax.json in Resources */ = {isa = PBXBuildFile; fileRef = F543D531220E193200F1EF8F /* noBidResponseNoTmax.json */; };
+		FA7C3EB5225E464300D2F128 /* PrebidServerOneBidFromAppNexusOneBidFromRubicon.json in Resources */ = {isa = PBXBuildFile; fileRef = FA7C3EB4225E464300D2F128 /* PrebidServerOneBidFromAppNexusOneBidFromRubicon.json */; };
 		FA7C3EB7225E4C2200D2F128 /* responseRubiconPBM.json in Resources */ = {isa = PBXBuildFile; fileRef = FA7C3EB6225E4C2200D2F128 /* responseRubiconPBM.json */; };
 		FA7C3EB9225E518000D2F128 /* noBidResponseRubicon.json in Resources */ = {isa = PBXBuildFile; fileRef = FA7C3EB8225E518000D2F128 /* noBidResponseRubicon.json */; };
 /* End PBXBuildFile section */
@@ -603,6 +604,7 @@
 				F5400CB62209EBF50018F6B1 /* PrebidServerValidResponseAppNexusNoCacheIdAndRunbiconHasCacheId.json in Resources */,
 				600CF13E220CDFA700C95176 /* responseinvalidSize.json in Resources */,
 				60C038392204F02C0082B32C /* responseAppNexusPBM.json in Resources */,
+				FA7C3EB5225E464300D2F128 /* PrebidServerOneBidFromAppNexusOneBidFromRubicon.json in Resources */,
 				FA7C3EB9225E518000D2F128 /* noBidResponseRubicon.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
