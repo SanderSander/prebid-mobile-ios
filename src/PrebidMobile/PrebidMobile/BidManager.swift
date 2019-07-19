@@ -19,9 +19,10 @@ import Foundation
 
     var prebidAdUnit: AdUnit
 
-    private static var adUnits: [AdUnit] = []
-    private static var adUnitBidMap: [String: [AdUnitBidMap]] = [:]
-    private static var bidMap: [String: [Bid]] = [:]
+    private static var adUnits:[AdUnit] = []
+    private static var adUnitBidMap:[String: [AdUnitBidMap]] = [:]
+    private static var bidMap:[String: [Bid]] = [:]
+    private static var historyBidMap:[AdUnitBidMap] = []
 
     init(adUnit: AdUnit) {
 
@@ -32,7 +33,25 @@ import Foundation
     static func addAdUnitBidMap(prebidAdUnit: AdUnit, adView: AnyObject) -> AdUnitBidMap {
         let newObj = AdUnitBidMap(adView: adView, adUnitCode: prebidAdUnit.identifier)
         if var adUnitbidMaps = BidManager.adUnitBidMap[prebidAdUnit.identifier] {
+
+            var toRemove = -1
+            for i in 0..<adUnitbidMaps.count {
+                let adUnitBidMap = adUnitbidMaps[i]
+                if (adUnitBidMap.adView === adView) {
+                    toRemove = i
+                }
+            }
+
+            if toRemove > -1 {
+                let oldBidMap = adUnitbidMaps[toRemove]
+                BidManager.historyBidMap.append(oldBidMap)
+                adUnitbidMaps.remove(at: toRemove)
+            }
+
             adUnitbidMaps.append(newObj)
+
+
+            BidManager.adUnitBidMap[prebidAdUnit.identifier] = adUnitbidMaps
         } else {
             BidManager.adUnitBidMap[prebidAdUnit.identifier] = [newObj]
         }
@@ -134,6 +153,15 @@ import Foundation
             }
         }
 
+        for bidAdUnitMap in BidManager.historyBidMap {
+            if (!bidAdUnitMap.isServerUpdated) {
+                placementDict.add(BidManager.gatherSizes(adUnitBidMap: bidAdUnitMap))
+            }
+            bidAdUnitMap.isServerUpdated = true;
+        }
+
+        BidManager.historyBidMap = []
+
         return placementDict
     }
 
@@ -144,6 +172,9 @@ import Foundation
                 let demandFetchStartTime = self.getCurrentMillis()
                 URLSession.shared.dataTask(with: urlRequest!) { data, _, error in
                     let demandFetchEndTime = self.getCurrentMillis()
+
+                    self.prebidAdUnit.didReceiveResponse = true
+
                     guard error == nil else {
                         Log.debug("error calling GET on /todos/1")
                         return
