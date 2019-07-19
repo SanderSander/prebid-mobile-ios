@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B6E09F27C16549C4D3976FB /* Pods_AdManagerBannerExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C70E10495C8D94D61035BAD /* Pods_AdManagerBannerExample.framework */; };
+		390ACE5B553A649343504B29 /* Pods_AdManagerBannerExampleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5399AF086B6CA3E2F06C199 /* Pods_AdManagerBannerExampleTests.framework */; };
+		6267A7ABEA54B249002AB5F4 /* Pods_AdManagerBannerExampleUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F931A1610DA3E874AA2F1D82 /* Pods_AdManagerBannerExampleUITests.framework */; };
 		D84DA65F22AB10E70058F420 /* MultipleAdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D84DA65E22AB10E70058F420 /* MultipleAdViewController.swift */; };
 		D89FB30E229F176E00B245B9 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D89FB309229F176E00B245B9 /* GoogleMobileAds.framework */; };
 		D8B5FB2E229DDCFB00CD20B1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B5FB2D229DDCFB00CD20B1 /* AppDelegate.swift */; };
@@ -94,6 +97,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4D8BD22B80A20D5D6AC0B0BD /* Pods-AdManagerBannerExampleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdManagerBannerExampleUITests.release.xcconfig"; path = "Target Support Files/Pods-AdManagerBannerExampleUITests/Pods-AdManagerBannerExampleUITests.release.xcconfig"; sourceTree = "<group>"; };
+		5C70E10495C8D94D61035BAD /* Pods_AdManagerBannerExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AdManagerBannerExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6505C2B33061DF16F2D1FB4E /* Pods-AdManagerBannerExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdManagerBannerExampleTests.debug.xcconfig"; path = "Target Support Files/Pods-AdManagerBannerExampleTests/Pods-AdManagerBannerExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
+		718ED753A35B4E8C5BBB2E56 /* Pods-AdManagerBannerExampleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdManagerBannerExampleUITests.debug.xcconfig"; path = "Target Support Files/Pods-AdManagerBannerExampleUITests/Pods-AdManagerBannerExampleUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		A5399AF086B6CA3E2F06C199 /* Pods_AdManagerBannerExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AdManagerBannerExampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0B0B742F81B204C50B2B89E /* Pods-AdManagerBannerExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdManagerBannerExampleTests.release.xcconfig"; path = "Target Support Files/Pods-AdManagerBannerExampleTests/Pods-AdManagerBannerExampleTests.release.xcconfig"; sourceTree = "<group>"; };
+		CCB1B939079CEA860D3EA8A7 /* Pods-AdManagerBannerExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdManagerBannerExample.debug.xcconfig"; path = "Target Support Files/Pods-AdManagerBannerExample/Pods-AdManagerBannerExample.debug.xcconfig"; sourceTree = "<group>"; };
 		D84DA65E22AB10E70058F420 /* MultipleAdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleAdViewController.swift; sourceTree = "<group>"; };
 		D89FB309229F176E00B245B9 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		D8B5FB2A229DDCFB00CD20B1 /* AdManagerBannerExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AdManagerBannerExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,6 +120,8 @@
 		D8B5FB4D229DDD0300CD20B1 /* AdManagerBannerExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdManagerBannerExampleUITests.swift; sourceTree = "<group>"; };
 		D8B5FB4F229DDD0300CD20B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D8B5FB74229DE49500CD20B1 /* PrebidMobile.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PrebidMobile.xcodeproj; path = ../../../src/PrebidMobile/PrebidMobile.xcodeproj; sourceTree = "<group>"; };
+		ED2CDA440CBEDE202EED2172 /* Pods-AdManagerBannerExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdManagerBannerExample.release.xcconfig"; path = "Target Support Files/Pods-AdManagerBannerExample/Pods-AdManagerBannerExample.release.xcconfig"; sourceTree = "<group>"; };
+		F931A1610DA3E874AA2F1D82 /* Pods_AdManagerBannerExampleUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AdManagerBannerExampleUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +131,7 @@
 			files = (
 				D89FB30E229F176E00B245B9 /* GoogleMobileAds.framework in Frameworks */,
 				D8B5FB86229DE51F00CD20B1 /* PrebidMobile.framework in Frameworks */,
+				2B6E09F27C16549C4D3976FB /* Pods_AdManagerBannerExample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,6 +139,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				390ACE5B553A649343504B29 /* Pods_AdManagerBannerExampleTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,12 +147,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6267A7ABEA54B249002AB5F4 /* Pods_AdManagerBannerExampleUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		97ABE25C9794E3AE693E6BC8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CCB1B939079CEA860D3EA8A7 /* Pods-AdManagerBannerExample.debug.xcconfig */,
+				ED2CDA440CBEDE202EED2172 /* Pods-AdManagerBannerExample.release.xcconfig */,
+				6505C2B33061DF16F2D1FB4E /* Pods-AdManagerBannerExampleTests.debug.xcconfig */,
+				B0B0B742F81B204C50B2B89E /* Pods-AdManagerBannerExampleTests.release.xcconfig */,
+				718ED753A35B4E8C5BBB2E56 /* Pods-AdManagerBannerExampleUITests.debug.xcconfig */,
+				4D8BD22B80A20D5D6AC0B0BD /* Pods-AdManagerBannerExampleUITests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		D8B5FB21229DDCFB00CD20B1 = {
 			isa = PBXGroup;
 			children = (
@@ -148,6 +177,7 @@
 				D8B5FB4C229DDD0300CD20B1 /* AdManagerBannerExampleUITests */,
 				D8B5FB2B229DDCFB00CD20B1 /* Products */,
 				D8B5FB70229DDF9F00CD20B1 /* Frameworks */,
+				97ABE25C9794E3AE693E6BC8 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -197,6 +227,9 @@
 		D8B5FB70229DDF9F00CD20B1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5C70E10495C8D94D61035BAD /* Pods_AdManagerBannerExample.framework */,
+				A5399AF086B6CA3E2F06C199 /* Pods_AdManagerBannerExampleTests.framework */,
+				F931A1610DA3E874AA2F1D82 /* Pods_AdManagerBannerExampleUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -220,10 +253,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D8B5FB52229DDD0300CD20B1 /* Build configuration list for PBXNativeTarget "AdManagerBannerExample" */;
 			buildPhases = (
+				0324232B6DBF6D719518DFEF /* [CP] Check Pods Manifest.lock */,
 				D8B5FB26229DDCFB00CD20B1 /* Sources */,
 				D8B5FB27229DDCFB00CD20B1 /* Frameworks */,
 				D8B5FB28229DDCFB00CD20B1 /* Resources */,
 				D8B5FB8A229DE51F00CD20B1 /* Embed Frameworks */,
+				44CB725BDA04A66F33DA8DB1 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -239,6 +274,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D8B5FB55229DDD0300CD20B1 /* Build configuration list for PBXNativeTarget "AdManagerBannerExampleTests" */;
 			buildPhases = (
+				B0190AA596A5AC60F4EA52F6 /* [CP] Check Pods Manifest.lock */,
 				D8B5FB3A229DDD0300CD20B1 /* Sources */,
 				D8B5FB3B229DDD0300CD20B1 /* Frameworks */,
 				D8B5FB3C229DDD0300CD20B1 /* Resources */,
@@ -257,6 +293,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D8B5FB58229DDD0300CD20B1 /* Build configuration list for PBXNativeTarget "AdManagerBannerExampleUITests" */;
 			buildPhases = (
+				6670400025068F65E869413A /* [CP] Check Pods Manifest.lock */,
 				D8B5FB45229DDD0300CD20B1 /* Sources */,
 				D8B5FB46229DDD0300CD20B1 /* Frameworks */,
 				D8B5FB47229DDD0300CD20B1 /* Resources */,
@@ -384,6 +421,92 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0324232B6DBF6D719518DFEF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AdManagerBannerExample-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		44CB725BDA04A66F33DA8DB1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AdManagerBannerExample/Pods-AdManagerBannerExample-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AdManagerBannerExample/Pods-AdManagerBannerExample-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AdManagerBannerExample/Pods-AdManagerBannerExample-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6670400025068F65E869413A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AdManagerBannerExampleUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B0190AA596A5AC60F4EA52F6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AdManagerBannerExampleTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D8B5FB26229DDCFB00CD20B1 /* Sources */ = {
@@ -570,6 +693,7 @@
 		};
 		D8B5FB53229DDD0300CD20B1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CCB1B939079CEA860D3EA8A7 /* Pods-AdManagerBannerExample.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -593,6 +717,7 @@
 		};
 		D8B5FB54229DDD0300CD20B1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ED2CDA440CBEDE202EED2172 /* Pods-AdManagerBannerExample.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -616,6 +741,7 @@
 		};
 		D8B5FB56229DDD0300CD20B1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6505C2B33061DF16F2D1FB4E /* Pods-AdManagerBannerExampleTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -637,6 +763,7 @@
 		};
 		D8B5FB57229DDD0300CD20B1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B0B0B742F81B204C50B2B89E /* Pods-AdManagerBannerExampleTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -658,6 +785,7 @@
 		};
 		D8B5FB59229DDD0300CD20B1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 718ED753A35B4E8C5BBB2E56 /* Pods-AdManagerBannerExampleUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -678,6 +806,7 @@
 		};
 		D8B5FB5A229DDD0300CD20B1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4D8BD22B80A20D5D6AC0B0BD /* Pods-AdManagerBannerExampleUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

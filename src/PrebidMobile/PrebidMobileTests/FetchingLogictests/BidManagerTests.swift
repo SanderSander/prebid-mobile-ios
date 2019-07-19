@@ -110,7 +110,8 @@ class BidManagerTests: XCTestCase {
             XCTAssertEqual(resultCode, ResultCode.prebidDemandFetchSuccess)
             XCTAssertNotNil(bidResponse)
             let keywords = bidResponse?.customKeywords
-            XCTAssertEqual(10, keywords?.count)
+            //XCTAssertEqual(10, keywords?.count)
+            XCTAssertEqual(14, keywords?.count)
             self.loadAdSuccesfulException?.fulfill()
         }
         loadAdSuccesfulException = expectation(description: "\(#function)")
@@ -126,7 +127,8 @@ class BidManagerTests: XCTestCase {
             XCTAssertEqual(resultCode, ResultCode.prebidDemandFetchSuccess)
             XCTAssertNotNil(bidResponse)
             let keywords = bidResponse?.customKeywords
-            XCTAssertEqual(10, keywords?.count)
+            //XCTAssertEqual(10, keywords?.count)
+            XCTAssertEqual(14, keywords?.count)
             self.loadAdSuccesfulException?.fulfill()
         }
         loadAdSuccesfulException = expectation(description: "\(#function)")
@@ -181,8 +183,8 @@ class BidManagerTests: XCTestCase {
             if let bidResponse = bidResponse {
                 XCTAssertEqual("appnexus", bidResponse.customKeywords["hb_bidder"])
                 XCTAssertEqual("appnexus", bidResponse.customKeywords["hb_bidder_appnexus"])
-                XCTAssertEqual("7008d51d-af2a-4357-acea-1cb672ac2189", bidResponse.customKeywords["hb_cache_id"])
-                XCTAssertEqual("7008d51d-af2a-4357-acea-1cb672ac2189", bidResponse.customKeywords["hb_cache_id_appnexus"])
+                //XCTAssertEqual("7008d51d-af2a-4357-acea-1cb672ac2189", bidResponse.customKeywords["hb_cache_id"])
+                //XCTAssertEqual("7008d51d-af2a-4357-acea-1cb672ac2189", bidResponse.customKeywords["hb_cache_id_appnexus"])
                 XCTAssertEqual("mobile-app", bidResponse.customKeywords["hb_env"])
                 XCTAssertEqual("mobile-app", bidResponse.customKeywords["hb_env_appnexus"])
                 XCTAssertEqual("0.50", bidResponse.customKeywords["hb_pb"])
@@ -210,12 +212,12 @@ class BidManagerTests: XCTestCase {
                 XCTAssertEqual("mobile-app", bidResponse.customKeywords["hb_env"])
                 XCTAssertEqual("https://prebid-cache-europe.rubiconproject.com/cache", bidResponse.customKeywords["hb_cache_hostpath"])
                 XCTAssertEqual("300x250", bidResponse.customKeywords["hb_size_rubicon"])
-                XCTAssertEqual("a2f41588-4727-425c-9ef0-3b382debef1e", bidResponse.customKeywords["hb_cache_id"])
+                //XCTAssertEqual("a2f41588-4727-425c-9ef0-3b382debef1e", bidResponse.customKeywords["hb_cache_id"])
                 XCTAssertEqual("/cache", bidResponse.customKeywords["hb_cache_path_rubicon"])
                 XCTAssertEqual("prebid-cache-europe.rubiconproject.com", bidResponse.customKeywords["hb_cache_host_rubicon"])
                 XCTAssertEqual("1.20", bidResponse.customKeywords["hb_pb"])
                 XCTAssertEqual("1.20", bidResponse.customKeywords["hb_pb_rubicon"])
-                XCTAssertEqual("a2f41588-4727-425c-9ef0-3b382debef1e", bidResponse.customKeywords["hb_cache_id_rubicon"])
+                //XCTAssertEqual("a2f41588-4727-425c-9ef0-3b382debef1e", bidResponse.customKeywords["hb_cache_id_rubicon"])
                 XCTAssertEqual("/cache", bidResponse.customKeywords["hb_cache_path"])
                 XCTAssertEqual("300x250", bidResponse.customKeywords["hb_size"])
                 XCTAssertEqual("https://prebid-cache-europe.rubiconproject.com/cache", bidResponse.customKeywords["hb_cache_hostpath_rubicon"])
