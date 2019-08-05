@@ -10,7 +10,7 @@ import Foundation
 import WebKit
 import UIKit
 
-class CacheManager: NSObject, UIWebViewDelegate {
+public class CacheManager: NSObject, UIWebViewDelegate {
 
     private static var cache: CacheManager?
 
@@ -163,7 +163,7 @@ class CacheManager: NSObject, UIWebViewDelegate {
 
 }
 
-protocol CacheManagerWindowProtocol {
+public protocol CacheManagerWindowProtocol {
     func addSubview(_ view: UIView)
 }
 
