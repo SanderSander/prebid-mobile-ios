@@ -19,7 +19,7 @@ import XCTest
 class PrebidTests: XCTestCase {
 
     override func setUp() {
-        Prebid.shared.prebidServerHost = PrebidHost.Custom
+        // Put setup code here. This method is called before the invocation of each test method in the class.
     }
 
     override func tearDown() {
@@ -50,10 +50,8 @@ class PrebidTests: XCTestCase {
 
     func testServerCustomHost() {
 
+        Prebid.shared.prebidServerHost = PrebidHost.Custom
         XCTAssertEqual(Prebid.shared.prebidServerHost, PrebidHost.Custom)
-
-        Prebid.shared.prebidServerHost = PrebidHost.Appnexus
-        XCTAssertEqual(Prebid.shared.prebidServerHost, PrebidHost.Appnexus)
 
         XCTAssertThrowsError(try Prebid.shared.setCustomPrebidServer(url: "http://www.rubicon.org"))
 

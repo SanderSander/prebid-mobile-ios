@@ -67,10 +67,8 @@ import AdSupport
             requestDict["source"] = aSource
         }
         requestDict["app"] = openrtbApp()
-        requestDict["device"] = openrtbDevice()
-        if Targeting.shared.subjectToGDPR == true {
-            requestDict["regs"] = openrtbRegs()
-        }
+        requestDict["device"] = openrtbDevice(adUnit: adUnit)
+        requestDict["regs"] = openrtbRegs()
         requestDict["user"] = openrtbUser(adUnit: adUnit)
         requestDict["imp"] = openrtbImps(adUnit: adUnit)
         requestDict["ext"] = openrtbRequestExtension()
@@ -92,6 +90,12 @@ import AdSupport
         requestPrebidExt["targeting"] = [:]
         //requestPrebidExt["storedrequest"] = ["id": Prebid.shared.prebidServerAccountId]
         requestPrebidExt["cache"] = ["bids": [AnyHashable: Any]()]
+
+        let acl = Array(Targeting.shared.getAccessControlList())
+        if acl.count > 0 {
+            requestPrebidExt["data"] = ["bidders": acl]
+        }
+
         var requestExt: [AnyHashable: Any] = [:]
         requestExt["prebid"] = requestPrebidExt
         return requestExt
@@ -131,6 +135,20 @@ import AdSupport
         var adUnitExt: [AnyHashable: Any] = [:]
         adUnitExt["prebid"] = prebidAdUnitExt
 
+        var prebidAdUnitExtContext: [AnyHashable: Any] = [:]
+
+        if let adUnitContextKeywords = adUnit?.getContextKeywordsSet().toCommaSeparatedListString(), !adUnitContextKeywords.isEmpty {
+            prebidAdUnitExtContext["keywords"] = adUnitContextKeywords
+        }
+
+        if let adUnitContextData = adUnit?.getContextDataDictionary().getCopyWhereValueIsArray(), adUnitContextData.count > 0 {
+            prebidAdUnitExtContext["data"] = adUnitContextData
+        }
+
+        if prebidAdUnitExtContext.count > 0 {
+            adUnitExt["context"] = prebidAdUnitExtContext
+        }
+
         imp["ext"] = adUnitExt
 
         imps.append(imp)
@@ -158,13 +176,28 @@ import AdSupport
 
         app["publisher"] = ["id": Prebid.shared.prebidServerAccountId ?? 0] as NSDictionary
 
+        var requestAppExt: [AnyHashable: Any] = [:]
+
         let prebidSdkVersion = Bundle(for: type(of: self)).infoDictionary?["CFBundleShortVersionString"] as? String
-        app["ext"] = ["prebid": ["version": prebidSdkVersion, "source": "prebid-mobile"]]
-        
+        requestAppExt["prebid"] = ["version": prebidSdkVersion, "source": "prebid-mobile"]
+
+        let contextDataDictionary = Targeting.shared.getContextDataDictionary().getCopyWhereValueIsArray()
+        if contextDataDictionary.count > 0 {
+            requestAppExt["data"] = contextDataDictionary
+        }
+
+        let contextKeywordsString = Targeting.shared.getContextKeywordsSet().toCommaSeparatedListString()
+
+        if !contextKeywordsString.isEmpty {
+            app["keywords"] = contextKeywordsString
+        }
+
+        app["ext"] = requestAppExt
+
         if let storeUrl = Targeting.shared.storeURL, !storeUrl.isEmpty {
             app["storeurl"] = storeUrl
         }
-        
+
         if let domain = Targeting.shared.domain, !domain.isEmpty {
             app["domain"] = domain
         }
@@ -174,7 +207,7 @@ import AdSupport
 
     // OpenRTB 2.5 Object: Device in section 3.2.18
 
-    func openrtbDevice() -> [AnyHashable: Any]? {
+    func openrtbDevice(adUnit: AdUnit?) -> [AnyHashable: Any]? {
         var deviceDict: [AnyHashable: Any] = [:]
 
         if (RequestBuilder.myUserAgent != "") {
@@ -229,6 +262,10 @@ import AdSupport
 
         deviceDict["pxratio"] = pixelRatio
 
+        if let deviceExt = self.fetchDeviceExt(adUnit: adUnit) {
+            deviceDict["ext"] = deviceExt
+        }
+
         return deviceDict
 
     }
@@ -261,12 +298,18 @@ import AdSupport
 
         var regsDict: [AnyHashable: Any] = [:]
 
-        let gdpr: Bool? = Targeting.shared.subjectToGDPR
+        let gdpr = Targeting.shared.subjectToGDPR
 
-        if (gdpr != nil) {
-            regsDict["ext"] = ["gdpr": NSNumber(value: gdpr!).intValue] as NSDictionary
+        if gdpr == true {
+            regsDict["ext"] = ["gdpr": NSNumber(value: gdpr).intValue] as NSDictionary
         }
-        return regsDict
+
+        let coppa = Targeting.shared.subjectToCOPPA
+        if coppa == true {
+            regsDict["coppa"] = NSNumber(value: coppa).intValue
+        }
+
+        return regsDict.isEmpty ? nil : regsDict
     }
 
     // OpenRTB 2.5 Object: User in section 3.2.20
@@ -290,21 +333,31 @@ import AdSupport
         }
         userDict["gender"] = gender
 
-        let targetingUserParams = adUnit?.userKeywords
-
-        let userKeywordString = fetchKeywordsString(targetingUserParams)
-
-        if !(userKeywordString == "") {
-            userDict["keywords"] = userKeywordString
+        let globalUserKeywordString = Targeting.shared.getUserKeywordsSet().toCommaSeparatedListString()
+        if !globalUserKeywordString.isEmpty  {
+            userDict["keywords"] = globalUserKeywordString
+        } else if let adunitUserKeywordString = adUnit?.userKeywords.toCommaSeparatedListString(), !adunitUserKeywordString.isEmpty  {
+            userDict["keywords"] = adunitUserKeywordString
         }
+
+        var requestUserExt: [AnyHashable: Any] = [:]
 
         if Targeting.shared.subjectToGDPR == true {
 
-            let consentString = Targeting.shared.gdprConsentString
-            if (consentString != nil && consentString != .EMPTY_String) {
-                userDict["ext"] = ["consent": consentString]
+            if let gdprConsentString = Targeting.shared.gdprConsentString, !gdprConsentString.isEmpty {
+                requestUserExt["consent"] = gdprConsentString
             }
         }
+
+        let userDataDictionary = Targeting.shared.getUserDataDictionary().getCopyWhereValueIsArray()
+        if userDataDictionary.count > 0 {
+            requestUserExt["data"] = userDataDictionary
+        }
+
+        if requestUserExt.count > 0 {
+            userDict["ext"] = requestUserExt
+        }
+
         return userDict
     }
 
@@ -319,27 +372,22 @@ import AdSupport
         return precisionNumberFormatter
     }
 
-    func fetchKeywordsString(_ kewordsDictionary: [AnyHashable: Any]?) -> String? {
+    func fetchDeviceExt(adUnit: AdUnit?) -> [AnyHashable: Any]? {
 
-        var keywordString = ""
+        var deviceExt: [AnyHashable: Any] = [:]
+        var deviceExtPrebid: [AnyHashable: Any] = [:]
+        var deviceExtPrebidInstlDict: [AnyHashable: Any] = [:]
 
-        for (key, dictValues) in (kewordsDictionary)! {
-
-            let values = dictValues as? [String?]
-
-            for value in values! {
-
-                let keyvalue = "\(key)=\(value!)"
-
-                if (keywordString != "") {
-                    keywordString = "\(keywordString),\(keyvalue)"
-                } else {
-                    keywordString = keyvalue
-                }
-            }
+        if let adUnit = adUnit as? InterstitialAdUnit {
+            deviceExtPrebidInstlDict["minwidthperc"] = adUnit.minSizePerc?.width
+            deviceExtPrebidInstlDict["minheightperc"] = adUnit.minSizePerc?.height
         }
 
-        return keywordString
+        deviceExtPrebid["interstitial"] = deviceExtPrebidInstlDict
+        deviceExt["prebid"] = deviceExtPrebid
+
+        let deviceExtWithoutEmptyValues = deviceExt.getObjectWithoutEmptyValues()
+        return deviceExtWithoutEmptyValues
     }
 
     class func UserAgent(callback:@escaping(_ userAgentString: String) -> Void) {

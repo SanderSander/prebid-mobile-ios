@@ -16,6 +16,8 @@
 import Foundation
 
 extension String {
+    public static let PB_COPPA_SubjectToConsent = "kPBCoppaSubjectToConsent"
+    
     public static let PB_GDPR_ConsentString = "kPBGDPRConsentString"
 
     public static let PB_GDPR_SubjectToConsent = "kPBGdprSubjectToConsent"
@@ -42,6 +44,9 @@ extension String {
 
     public static let MoPub_Interstitial_Name = "MPInterstitialAdController"
 
+    public static let bidderNameAppNexus = "appnexus"
+
+    public static let bidderNameRubiconProject = "rubicon"
 }
 
 extension Double {
@@ -96,22 +101,4 @@ extension UIDevice {
         }
     }
 
-}
-
-extension Dictionary {
-    mutating func merge(dict: [Key: Value]) {
-        for (k, v) in dict {
-            updateValue(v, forKey: k)
-        }
-    }
-}
-
-extension Array {
-    public func toDictionary<Key: Hashable>(with selectKey: (Element) -> Key) -> [Key: Element] {
-        var dict = [Key: Element]()
-        for element in self {
-            dict[selectKey(element)] = element
-        }
-        return dict
-    }
 }
